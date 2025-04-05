@@ -5,7 +5,7 @@ app = Flask(__name__)
 # Empty route Hello world test
 @app.route("/")
 def hello_world():
-    return "<p>Hello ja Terve from cc backend</p>"
+    return "<p>Hello versio 2 from cc backend</p>"
 
 # POST-method for data endpoint. Print name-info presented in the request body
 @app.route('/sentiment', methods=['POST'])
