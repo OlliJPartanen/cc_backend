@@ -1,3 +1,4 @@
 Flask
 Pandas
 nltk
+Flask-cors

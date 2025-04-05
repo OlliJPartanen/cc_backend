@@ -1,10 +1,13 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pandas as pd
 import nltk
 nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+# ChatGPT was used to figure out how flask-CORS works. Check report for more info
 app = Flask(__name__)
+CORS(app)
 
 # Empty route Hello world test
 @app.route("/")
@@ -18,16 +21,6 @@ def hello_world():
     test2 = sid.polarity_scores(test2_comment)
     test3 = sid.polarity_scores(test3_comment)
 
-    # Lähde datasettien yhdistämiseksi https://datascience.stackexchange.com/questions/81617/how-to-combine-and-separate-test-and-train-data-for-data-cleaning
-    main_df_test = pd.read_csv("dataset/test.csv", encoding='latin-1')
-    main_df_train = pd.read_csv("dataset/train.csv", encoding='latin-1')
-
-    # Yhdistetään train ja test datasetit
-    main_df = pd.concat([main_df_test.assign(ind="test"), main_df_train.assign(ind="train")])
-    # Tarkastetaan nullsum
-    main_df.dropna(inplace=True)
-    main_df.isnull().sum()
-
     return f"""
     <p>Test comment 1: {test1_comment} --- {test1}</p>
     <p>Test comment 2: {test2_comment} --- {test2}</p>
@@ -36,12 +29,21 @@ def hello_world():
 # POST-method for data endpoint. Print name-info presented in the request body
 @app.route('/sentiment', methods=['POST'])
 def get_sentiment():
-    input_data = request.json
-    print(input_data)
-    # Sentiment alasysis here!
+    body_data = request.json
 
+    # Define sid as a sentimelIntensityAnalysis variable
+    sid = SentimentIntensityAnalyzer()
+    
+    # print comment to console and create variable of is
+    comment = body_data["comment"]
+    print(comment)
 
-    return {'input_data': 'message', "data": "Message testing! HELLO!"}
+    # Create polarity score and print it
+    comment_polarity = sid.polarity_scores(comment)
+    print(comment_polarity)
+
+    # Return comment_polarity to frontend
+    return {'response': comment_polarity}
 
 if __name__ == '__main__':
 
