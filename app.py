@@ -5,7 +5,7 @@ app = Flask(__name__)
 # Empty route Hello world test
 @app.route("/")
 def hello_world():
-    return "<p>Hello versio 3 webhook test from cc backend</p>"
+    return "<p>Hello version 4 published DEV branch</p>"
 
 # POST-method for data endpoint. Print name-info presented in the request body
 @app.route('/sentiment', methods=['POST'])
