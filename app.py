@@ -8,12 +8,16 @@ def hello_world():
     return "<p>Hello ja Terve from cc backend</p>"
 
 # POST-method for data endpoint. Print name-info presented in the request body
-@app.route('/data', methods=['POST'])
-def get_data():
-    data = request.json
-    print(data["name"])
-    return {"message": "Data received", "data": data}
+@app.route('/sentiment', methods=['POST'])
+def get_sentiment():
+    input_data = request.json
+    print(input_data)
+
+    # Sentiment alasysis here!
+
+
+    return {'input_data': 'message', "data": "Message testing! HELLO!"}
 
 if __name__ == '__main__':
     #app.run()
-    app.run(host="0.0.0.0", port="5000", debug=True)
+    app.run(host="0.0.0.0", port="5000", debug=False)
