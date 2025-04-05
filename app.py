@@ -12,7 +12,7 @@ def hello_world():
 def get_sentiment():
     input_data = request.json
     print(input_data)
-
+    print("testString")
     # Sentiment alasysis here!
 
 
